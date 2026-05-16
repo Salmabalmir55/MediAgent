@@ -2,7 +2,6 @@ from langchain_groq import ChatGroq
 from state import MedicalState
 import os
 
-# ─── PROMPTS pour l'évaluation A/B ───────────────────────────────────────────
 PROMPT_A = """Tu es un agent de triage médical.
 Analyse les symptômes suivants et classe l'urgence : FAIBLE, MODÉRÉE ou ÉLEVÉE.
 Symptômes : {symptoms}
@@ -18,13 +17,12 @@ Instructions :
 2. Évalue le niveau d'urgence : FAIBLE / MODÉRÉE / ÉLEVÉE / CRITIQUE.
 3. Justifie ton évaluation en 2-3 phrases.
 4. Indique les premières observations importantes pour le médecin."""
-# ─────────────────────────────────────────────────────────────────────────────
+
 
 def agent_triage(state: MedicalState) -> MedicalState:
     """Agent de triage : évalue l'urgence des symptômes du patient."""
     llm = ChatGroq(model="mixtral-8x7b-32768", temperature=0, api_key=os.getenv("GROQ_API_KEY"))
     
-    # Utilisation du prompt B (détaillé) par défaut
     prompt = PROMPT_B.format(symptoms=state["symptoms"])
 
     response = llm.invoke(prompt)
