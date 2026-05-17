@@ -1,8 +1,4 @@
-"""
-evaluation.py — Évaluation A/B des prompts de l'agent de triage.
-Compare PROMPT_A (court) vs PROMPT_B (détaillé) sur 5 cas médicaux types.
-Version compatible avec Groq (gratuit)
-"""
+
 
 import os
 import re
@@ -12,7 +8,6 @@ load_dotenv()
 from langchain_groq import ChatGroq  # ← Changement : Groq au lieu d'OpenAI
 from agents.agent_triage import PROMPT_A, PROMPT_B
 
-# ─── Cas de test avec urgence attendue ───────────────────────────────────────
 TEST_CASES = [
     {
         "id": 1,
@@ -45,7 +40,6 @@ def extract_urgency(text: str) -> str:
     """Extrait le niveau d'urgence de la réponse du LLM de manière robuste."""
     text_upper = text.upper()
     
-    # Patterns de recherche par ordre de priorité
     patterns = {
         "CRITIQUE": r"\b(CRITIQUE|URGENCE\s*ABSOLUE|VITAL|MORT)\b",
         "ÉLEVÉE": r"\b(ÉLEVÉE|ÉLEVE|HAUTE|GRAVE|URGENT|IMMÉDIATE)\b",
@@ -57,7 +51,6 @@ def extract_urgency(text: str) -> str:
         if re.search(pattern, text_upper):
             return level
     
-    # Fallback simple par mot-clé
     if "CRITIQUE" in text_upper:
         return "CRITIQUE"
     if "ÉLEVÉE" in text_upper or "ELEVEE" in text_upper:
