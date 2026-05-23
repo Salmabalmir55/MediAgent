@@ -1,0 +1,104 @@
+FICHES PATHOLOGIES MÉDICALES — BASE DE CONNAISSANCES MediAgent
+
+=== GRIPPE (INFLUENZA) ===
+La grippe est une infection virale aiguë des voies respiratoires causée par les virus Influenza A, B ou C.
+Symptômes principaux : fièvre brutale (38-40°C), frissons intenses, céphalées, myalgies et arthralgies diffuses, 
+asthénie marquée, toux sèche douloureuse, rhinorrhée, odynophagie.
+Début : brutal en quelques heures.
+Durée : 7 à 10 jours. La fatigue peut persister 2-3 semaines.
+Complications : pneumonie virale ou bactérienne secondaire (notamment à Staphylococcus aureus), 
+myocardite, encéphalite, syndrome de Reye (chez l'enfant avec aspirine).
+Populations à risque : personnes âgées >65 ans, femmes enceintes, immunodéprimés, cardiaques, diabétiques.
+Traitement : repos au lit, hydratation abondante, paracétamol (1g/6h max), AINS si douleurs.
+Antiviraux : oseltamivir (Tamiflu) si début <48h chez sujets à risque. 500mg/j pendant 5 jours.
+Prévention : vaccination annuelle (octobre-novembre), hygiène des mains, masque en milieu de soins.
+
+=== COVID-19 (SARS-CoV-2) ===
+Infection respiratoire causée par le coronavirus SARS-CoV-2, pandémie depuis 2020.
+Symptômes : fièvre (>37.8°C), toux sèche, fatigue, dyspnée, anosmie (perte d'odorat), agueusie (perte du goût),
+céphalées, douleurs musculaires, maux de gorge, diarrhées.
+Formes cliniques : asymptomatique (30%), légère (50%), modérée (15%), sévère (4%), critique (1%).
+Formes sévères : pneumonie bilatérale avec hypoxie (SpO2 <94%), SDRA, choc septique.
+Facteurs de gravité : âge >65 ans, obésité, diabète, hypertension, maladies cardiovasculaires.
+Diagnostic : RT-PCR nasopharyngé (référence), test antigénique rapide.
+Traitement formes légères : isolement 10 jours, symptomatique, surveillance SpO2 à domicile.
+Traitement formes sévères : hospitalisation, O2 si SpO2<94%, corticoïdes (dexaméthasone 6mg/j), anticoagulants.
+Prévention : vaccination (3 doses recommandées), port du masque, distanciation 1m, aération des locaux.
+
+=== PNEUMONIE COMMUNAUTAIRE ===
+Infection pulmonaire aiguë contractée en dehors de l'hôpital.
+Agents causaux : Streptococcus pneumoniae (50%), Mycoplasma pneumoniae, Haemophilus influenzae, virus.
+Symptômes : fièvre élevée (>39°C) avec frissons, toux productive (expectorations purulentes ou rouillées),
+douleur thoracique pleurale (aggravée à l'inspiration), dyspnée, point de côté.
+Signes auscultatoires : crépitants localisés, souffle tubaire, matité à la percussion.
+Biologie : hyperleucocytose >12000/mm³, CRP élevée (>100 mg/L), procalcitonine >0.5 ng/mL.
+Imagerie : opacité alvéolaire systématisée à la radiographie pulmonaire.
+Score de sévérité : score CRB65 (Confusion, Respiratory rate, Blood pressure, >65 ans).
+Traitement ambulatoire : amoxicilline 1g x3/j pendant 7 jours. Si atypiques suspectés : macrolides.
+Traitement hospitalier : amoxicilline-acide clavulanique IV + macrolide, ou C3G + macrolide.
+Indication hospitalisation : CRB65 ≥1, SpO2 <92%, signes de gravité, terrain fragilisé.
+
+=== APPENDICITE AIGUË ===
+Inflammation de l'appendice vermiculaire, urgence chirurgicale abdominale la plus fréquente.
+Physiopathologie : obstruction (stercolithe, corps étranger) → distension → ischémie → surinfection bactérienne.
+Symptômes : douleur abdominale débutant péri-ombilicale puis migrant en fosse iliaque droite (FID),
+nausées et vomissements, anorexie, fièvre modérée (38-38.5°C), défense ou contracture en FID.
+Signes cliniques : signe de McBurney (douleur au point de McBurney), signe de Blumberg (douleur à la décompression),
+signe de Rovsing (douleur FID à la palpation FIG).
+Biologie : hyperleucocytose >10000/mm³, CRP élevée, ECBU normal (éliminer infection urinaire).
+Imagerie : échographie abdominale (première intention), scanner abdominal si doute.
+Score de Lee ou score d'Alvarado : aide au diagnostic.
+Traitement : appendicectomie (laparoscopie en urgence). Antibiothérapie péri-opératoire.
+Complications si non traité : perforation → péritonite généralisée, abcès appendiculaire, plastron.
+
+=== INFARCTUS DU MYOCARDE (IDM) ===
+Nécrose myocardique par obstruction thrombotique aiguë d'une artère coronaire. URGENCE ABSOLUE.
+Physiopathologie : rupture de plaque athéromateuse → thrombus occlusif → ischémie → nécrose (>20 min).
+Symptômes : douleur thoracique rétrosternale en étau, intense, prolongée (>20 min), irradiant vers bras gauche,
+mâchoire, épaule, épigastre. Sueurs froides, pâleur, nausées, vomissements, angoisse de mort imminente.
+Formes atypiques : douleur épigastrique (IDM inférieur), dyspnée isolée, syncope (sujet âgé, diabétique).
+ECG : sus-décalage ST (STEMI) ou sous-décalage ST + onde T négative (NSTEMI).
+Biologie : troponine I ou T (marqueur de nécrose), pic à 12-24h, CKMB.
+CONDUITE À TENIR : appeler le 15 (SAMU) IMMÉDIATEMENT.
+Traitement aigu : aspirine 250mg + clopidogrel, héparine, défibrillateur prêt.
+Reperfusion : angioplastie primaire <12h (gold standard) ou thrombolyse si délai >2h.
+Complications : troubles du rythme (FV), insuffisance cardiaque, choc cardiogénique, rupture myocardique.
+
+=== HYPERTENSION ARTÉRIELLE (HTA) ===
+Pression artérielle systolique ≥140 mmHg et/ou diastolique ≥90 mmHg, mesurée à 3 reprises.
+Prévalence : 30% des adultes en France, première cause de consultation en médecine générale.
+Formes : HTA essentielle (95%, cause inconnue), HTA secondaire (5% : néphropathie, hyperaldostéronisme).
+Symptômes : généralement ASYMPTOMATIQUE ("tueur silencieux"). Parfois : céphalées occipitales matinales,
+acouphènes, phosphènes, épistaxis, vertiges.
+Urgence hypertensive (>180/120 + atteinte organe cible) : AVC, OAP, dissection aortique, éclampsie.
+Bilan initial : créatininémie, ionogramme, glycémie, bilan lipidique, ECG, fond d'oeil si sévère.
+Cibles tensionnelles : <140/90 mmHg en général, <130/80 si diabète ou néphropathie.
+Traitement non médicamenteux : réduction sel (<6g/j), perte de poids, activité physique, arrêt tabac, alcool modéré.
+Traitement médicamenteux (5 classes) : IEC (ramipril), ARA2 (valsartan), bêta-bloquants (bisoprolol),
+inhibiteurs calciques (amlodipine), diurétiques thiazidiques (hydrochlorothiazide).
+Surveillance : consultation tous les 3-6 mois, automesure tensionnelle, MAPA si doute.
+
+=== DIABÈTE DE TYPE 2 ===
+Maladie métabolique chronique caractérisée par une hyperglycémie par insulinorésistance et déficit insulinosécrétoire.
+Diagnostic : glycémie à jeun ≥1.26 g/L (7 mmol/L) à deux reprises, ou glycémie ≥2 g/L à n'importe quel moment.
+Symptômes à l'installation : soif excessive (polydipsie), urines abondantes (polyurie), fatigue, amaigrissement,
+vision floue, infections répétées (mycoses, furoncles), cicatrisation lente. Souvent asymptomatique.
+Complications chroniques : rétinopathie (cécité), néphropathie (insuffisance rénale), neuropathie (pied diabétique),
+macroangiopathie (coronaropathie, AVC, artérite).
+Surveillance : HbA1c (cible <7%), glycémie à jeun, fond d'oeil annuel, microalbuminurie, créatinine,
+bilan lipidique, examen des pieds.
+Traitement : régime alimentaire (IG bas, réduction calories), activité physique 150 min/sem,
+metformine (1ère intention), puis sulfonylurées, inhibiteurs DPP4, agonistes GLP-1, insuline.
+
+=== MIGRAINE ===
+Céphalée primaire récurrente, 2ème cause de consultation neurologique, prévalence 12%.
+Critères ICHD-3 : ≥5 crises de 4-72h, unilatérale, pulsatile, intensité modérée à sévère,
+aggravée par l'activité physique, associée à nausées/vomissements et/ou photophobie et phonophobie.
+Aura migraineuse (30% des cas) : troubles visuels (scotome scintillant, hémianopsie), sensitifs (paresthésies),
+aphasie. Durée 20-60 min précédant la céphalée.
+Facteurs déclenchants : stress, fatigue, menstruations, alcool (vin rouge), certains aliments (tyramine),
+variations du sommeil, jeûne, facteurs sensoriels (lumière, bruit).
+Traitement de la crise : AINS (ibuprofène 400mg), triptans (sumatriptan 50-100mg) si échec AINS,
+antiémétiques (métoclopramide). Repos dans l'obscurité et le silence.
+Traitement de fond (si ≥3 crises/mois) : propranolol, valproate, topiramate, amitriptyline, CGRP anticorps.
+Tenir un agenda des crises pour identifier les facteurs déclenchants.
