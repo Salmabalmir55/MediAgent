@@ -9,3 +9,7 @@ data/faiss_index/
 dist/
 build/
 .DS_Store
+.env
+.env.local
+*.key
+*.pem
