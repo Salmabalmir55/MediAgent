@@ -182,7 +182,7 @@ def build_pdf_bytes(patient_name, report_text, prescription_text):
     style_body = ParagraphStyle('BodyTextCustom', parent=styles['Normal'], textColor=colors.HexColor('#0f172a'), fontSize=11, leading=16, spaceAfter=10, alignment=TA_JUSTIFY, fontName="Helvetica")
     
     # --- PAGE 1 : COMPTE-RENDU ---
-    story.append(Paragraph("📋 COMPTE-RENDU CLINIQUE SYNTHÉTIQUE", style_title_rep))
+    story.append(Paragraph(" COMPTE-RENDU CLINIQUE SYNTHÉTIQUE", style_title_rep))
     story.append(Paragraph(f"<b>Patient :</b> {patient_name} | Document généré par le Hub Clinique MediAgent", style_meta))
     
     # Nettoyage et injection du texte du compte-rendu
@@ -191,11 +191,11 @@ def build_pdf_bytes(patient_name, report_text, prescription_text):
         if paragraph.strip():
             story.append(Paragraph(paragraph.strip(), style_body))
             
-    # Saut de page pour séparer l'ordonnance (40px simulé + page propre)
+    # Saut de page pour séparer l'ordonnance
     story.append(PageBreak())
     
     # --- PAGE 2 : ORDONNANCE ---
-    story.append(Paragraph("💊 ORDONNANCE MÉDICALE THÉRAPEUTIQUE", style_title_pre))
+    story.append(Paragraph(" ORDONNANCE MÉDICALE THÉRAPEUTIQUE", style_title_pre))
     story.append(Paragraph(f"<b>Patient :</b> {patient_name} | Avis médical requis avant délivrance", style_meta))
     
     # Nettoyage et injection du texte de l'ordonnance
@@ -236,12 +236,12 @@ def render_enhanced_graph_visualization():
     st.caption("Workflow séquentiel interactif avec point d'arrêt humain (Human-in-the-Loop)")
     
     agents_info = [
-        {"name": "Triage", "role": "Urgence", "color": "#3b82f6", "icon": "🚨"},
-        {"name": "RAG", "role": "Documents", "color": "#10b981", "icon": "📚"},
-        {"name": "Diagnostic", "role": "Analyse", "color": "#f59e0b", "icon": "🩺"},
-        {"name": "Validation", "role": "Médecin", "color": "#ef4444", "icon": "👨‍⚕️"},
-        {"name": "Prescription", "role": "Traitement", "color": "#8b5cf6", "icon": "💊"},
-        {"name": "Rapport", "role": "Synthèse", "color": "#14b8a6", "icon": "📄"}
+        {"name": "Triage", "role": "Urgence", "color": "#3b82f6", "icon": ""},
+        {"name": "RAG", "role": "Documents", "color": "#10b981", "icon": ""},
+        {"name": "Diagnostic", "role": "Analyse", "color": "#f59e0b", "icon": ""},
+        {"name": "Validation", "role": "Médecin", "color": "#ef4444", "icon": ""},
+        {"name": "Prescription", "role": "Traitement", "color": "#8b5cf6", "icon": ""},
+        {"name": "Rapport", "role": "Synthèse", "color": "#14b8a6", "icon": ""}
     ]
     
     st.markdown('<div class="flow-wrapper"><div class="flow-container">', unsafe_allow_html=True)
@@ -257,7 +257,7 @@ def render_enhanced_graph_visualization():
             if i == 3:
                 st.markdown('<div class="flow-arrow-interrupt">⏸️ WAIT</div>', unsafe_allow_html=True)
             else:
-                st.markdown('<div class="flow-arrow">➡️</div>', unsafe_allow_html=True)
+                st.markdown('<div class="flow-arrow"></div>', unsafe_allow_html=True)
     st.markdown('</div></div>', unsafe_allow_html=True)
     st.markdown("---")
 
@@ -304,17 +304,20 @@ with st.sidebar:
     st.caption("Système Décisionnel Clinique")
     st.divider()
     
-    st.subheader("⚙️ Configuration")
+    st.subheader(" Configuration")
     api_key = os.getenv("GROQ_API_KEY", "")
     if api_key:
-        st.success("✅ Connexion Groq Active")
+        st.success(" Connexion Groq Active")
+        st.session_state.api_key = api_key
     else:
         api_key = st.text_input("Clé API Groq", type="password")
-        if api_key: os.environ["GROQ_API_KEY"] = api_key
+        if api_key: 
+            os.environ["GROQ_API_KEY"] = api_key
+            st.session_state.api_key = api_key
             
     st.divider()
-    st.subheader("📚 Moteur Documentaire RAG")
-    if st.button("🔨 Synchroniser la Base RAG", use_container_width=True):
+    st.subheader(" Moteur Documentaire RAG")
+    if st.button(" Synchroniser la Base RAG", use_container_width=True):
         if not api_key:
             st.error("Entrez votre clé API d'abord.")
         else:
@@ -323,25 +326,25 @@ with st.sidebar:
                     from agents.agent_rag import build_rag_index
                     build_rag_index()
                     st.session_state.rag_built = True
-                    st.success("✅ Index RAG opérationnel")
+                    st.success(" Index RAG opérationnel")
                 except Exception as e:
                     st.error(f"Erreur : {e}")
                     
-    if st.session_state.rag_built: st.info("💡 Index RAG chargé en mémoire")
+    if st.session_state.rag_built: st.info(" Index RAG chargé en mémoire")
         
     st.divider()
-    st.subheader("🕸️ Topologie de Graphe")
-    view_mode = st.radio("Pipeline UI", ["✨ Architecture Visuelle", "🔧 Schéma Brut Blueprint"])
-    st.session_state.use_enhanced_graph = (view_mode == "✨ Architecture Visuelle")
+    st.subheader(" Topologie de Graphe")
+    view_mode = st.radio("Pipeline UI", [" Architecture Visuelle", " Schéma Brut Blueprint"])
+    st.session_state.use_enhanced_graph = (view_mode == " Architecture Visuelle")
     
-    if st.button("📊 Afficher la Carte Métier", use_container_width=True): st.session_state.show_graph = True
+    if st.button(" Afficher la Carte Métier", use_container_width=True): st.session_state.show_graph = True
     if st.session_state.get("show_graph", False):
-        if st.button("❌ Fermer le Graphique", use_container_width=True):
+        if st.button(" Fermer le Graphique", use_container_width=True):
             st.session_state.show_graph = False
             st.rerun()
             
     st.divider()
-    if st.button("🔄 Nouvelle Session", use_container_width=True):
+    if st.button(" Nouvelle Session", use_container_width=True):
         st.session_state.state = None
         st.session_state.step = "idle"
         st.session_state.thread_id = str(uuid.uuid4())
@@ -350,7 +353,7 @@ with st.sidebar:
 
 st.markdown("""
 <div class="main-header">
-<h1>🏥 MediAgent — Hub Clinique IA</h1>
+<h1> MediAgent : Hub Clinique IA</h1>
 <p style="margin:8px 0 0 0; opacity:0.8; font-size:1.05rem; font-weight:300;">Architecture Décisionnelle Distribuée de Haute Precision via LangGraph & RAG Core</p>
 </div>
 """, unsafe_allow_html=True)
@@ -366,144 +369,175 @@ cols = st.columns(6)
 for i, (col, label) in enumerate(zip(cols, steps)):
     with col:
         if i < current_idx: st.markdown(f'<div class="custom-progress-step prog-success">✓ {label}</div>', unsafe_allow_html=True)
-        elif i == current_idx: st.markdown(f'<div class="custom-progress-step prog-active">⏳ {label}</div>', unsafe_allow_html=True)
+        elif i == current_idx: st.markdown(f'<div class="custom-progress-step prog-active"> {label}</div>', unsafe_allow_html=True)
         else: st.markdown(f'<div class="custom-progress-step prog-idle">{label}</div>', unsafe_allow_html=True)
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-if st.session_state.step in [None, "idle"]:
-    st.subheader("📝 Dossier d'Admission Patient")
-    col1, col2 = st.columns([1, 2])
-    with col1: patient_name = st.text_input("Identité Patient", placeholder="Ex: Fatima El Amrani")
-    with col2: symptoms = st.text_area("Anamnèse & Symptomatologie Clinique", placeholder="Saisissez les observations cliniques détaillées...", height=120)
-        
-    if st.button("🚀 Soumettre au Consilium d'Agents", type="primary", use_container_width=True):
-        if not api_key: st.error("Clé API absente.")
-        elif not patient_name or not symptoms: st.warning("Champs requis manquants.")
-        else:
-            initial_state = {"patient_name": patient_name, "symptoms": symptoms, "messages": [], "triage_result": None, "rag_context": None, "diagnostic": None, "prescription": None, "report": None, "human_approved": None, "human_feedback": None, "current_step": "start"}
-            progress_placeholder = st.empty()
-            with progress_placeholder.container(): st.info("🔄 Orchestration LangGraph : Analyse de l'Agent Triage...")
-            try:
-                if GRAPH_AVAILABLE:
-                    graph = get_graph()
-                    state = run_until_human(graph, initial_state, st.session_state.thread_id)
-                    progress_placeholder.empty()
-                    st.session_state.state = state
-                    st.session_state.step = state.get("current_step", "diagnostic_done")
-                    st.rerun()
-            except Exception as e:
-                progress_placeholder.empty()
-                st.error(f"Erreur d'exécution : {e}")
+# --- SYSTEME DE NAVIGATION CENTRAL PAR ONGLETS ---
+tab_admission, tab_evaluation = st.tabs([" Dossier d'Admission Patient", " Analyse Comparative A/B (Triage)"])
 
-if st.session_state.step in ["diagnostic_done", "awaiting_human"] and st.session_state.state:
-    state = st.session_state.state
-    st.subheader("📊 Métriques Émises par les Agents")
-    tab1, tab2, tab3 = st.tabs(["🚨 Triage Initial", "📚 Contexte Vectoriel RAG", "🩺 Proposition Diagnostic"])
-    
-    with tab1:
-        st.markdown('<span class="step-badge badge-triage">Agent Triage</span>', unsafe_allow_html=True)
-        st.markdown(f'<div class="agent-card">{state.get("triage_result","")}</div>', unsafe_allow_html=True)
-    with tab2:
-        st.markdown('<span class="step-badge badge-rag">Agent RAG</span>', unsafe_allow_html=True)
-        context = state.get("rag_context", "")
-        for block in context.split("\n\n") if context else []:
-            if block.strip(): st.markdown(f'<div class="agent-card rag">{block}</div>', unsafe_allow_html=True)
-    with tab3:
-        st.markdown('<span class="step-badge badge-diag">Agent Diagnostic</span>', unsafe_allow_html=True)
-        st.markdown(f'<div class="agent-card diag">{state.get("diagnostic","")}</div>', unsafe_allow_html=True)
-        
-    st.markdown("---")
-    st.subheader("👨‍⚕️ Arbitrage Humain Mandataire (Human-in-the-Loop)")
-    with st.form("human_form"):
-        feedback = st.text_area("Directives de modification ou d'approbation", placeholder="Ex: Diagnostic validé.", height=100)
-        col_a, col_b = st.columns(2)
-        with col_a: approve = st.form_submit_button("✅ Signer & Autoriser la Prescription", type="primary", use_container_width=True)
-        with col_b: reject = st.form_submit_button("❌ Rejeter le Dossier", use_container_width=True)
+with tab_admission:
+    if st.session_state.step in [None, "idle"]:
+        st.subheader("Admission Clinique du Patient")
+        col1, col2 = st.columns([1, 2])
+        with col1: patient_name = st.text_input("Identité Patient", placeholder="Ex: Fatima El Amrani")
+        with col2: symptoms = st.text_area("Anamnèse & Symptomatologie Clinique", placeholder="Saisissez les observations cliniques détaillées...", height=120)
             
-    if approve and feedback:
-        with st.spinner("Calcul de la Prescription & Génération..."):
-            try:
-                graph = get_graph()
-                final = resume_after_human(graph, st.session_state.thread_id, approved=True, feedback=feedback)
-                st.session_state.state = final
-                st.session_state.step = "done"
-                st.rerun()
-            except Exception as e: st.error(f"Erreur d'autorisation : {e}")
-    elif approve and not feedback: st.error("Veuillez renseigner un commentaire de visa médical.")
-    elif reject:
-        st.session_state.step = "idle"
-        st.warning("Dossier rejeté par l'expert médical.")
+        if st.button(" Soumettre au Consilium d'Agents", type="primary", use_container_width=True):
+            if not api_key: st.error("Clé API absente.")
+            elif not patient_name or not symptoms: st.warning("Champs requis manquants.")
+            else:
+                initial_state = {"patient_name": patient_name, "symptoms": symptoms, "messages": [], "triage_result": None, "rag_context": None, "diagnostic": None, "prescription": None, "report": None, "human_approved": None, "human_feedback": None, "current_step": "start"}
+                progress_placeholder = st.empty()
+                with progress_placeholder.container(): st.info(" Orchestration LangGraph : Analyse de l'Agent Triage...")
+                try:
+                    if GRAPH_AVAILABLE:
+                        graph = get_graph()
+                        state = run_until_human(graph, initial_state, st.session_state.thread_id)
+                        progress_placeholder.empty()
+                        st.session_state.state = state
+                        st.session_state.step = state.get("current_step", "diagnostic_done")
+                        st.rerun()
+                except Exception as e:
+                    progress_placeholder.empty()
+                    st.error(f"Erreur d'exécution : {e}")
 
-if st.session_state.step == "done" and st.session_state.state:
-    state = st.session_state.state
-    st.success("🎉 Processus d'évaluation clinique finalisé avec succès.")
-    st.subheader("📋 Documents Officiels Générés")
-    
-    raw_report = state.get("report", "")
-    raw_prescription = state.get("prescription", "")
-    p_name = state.get("patient_name", "Patient")
-    
-    def format_to_premium_html(text):
-        if not text: return ""
-        html_text = text.replace("\n", "<br>")
-        html_text = re.sub(r'\*\*\s*([A-Z0-9]{1,3}\..*?)\s*\*\*|\*\*\s*([IVXLCDM]+\..*?)\s*\*\*', 
-                           r'<h2 style="color: #1e3a8a; margin-top: 1.6rem; margin-bottom: 0.6rem; font-size: 1.35rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; font-weight:600;">\1\2</h2>', html_text)
-        html_text = re.sub(r'\*\*\s*([a-z]\).*?)\s*\*\*|\*\*\s*([0-9]+\.[0-9]+\..*?)\s*\*\*', 
-                           r'<h3 style="color: #2563eb; margin-top: 1.2rem; margin-bottom: 0.4rem; font-size: 1.15rem; font-weight:600;">\1\2</h3>', html_text)
-        html_text = re.sub(r'\*\*(.*?)\*\*', r'<strong style="color: #0f172a; font-weight: 600;">\1</strong>', html_text)
-        return html_text
-
-    html_report = format_to_premium_html(raw_report)
-    html_prescription = format_to_premium_html(raw_prescription)
-    
-    # --- DÉCOUPAGE STRATÉGIQUE DES ÉLÉMENTS HTML (Résolution du bug d'affichage lié aux f-strings) ---
-    st.markdown('<div style="background:#f8fafc; padding:20px; border-radius:16px; margin-bottom:20px; color:#0f172a;">', unsafe_allow_html=True)
-    
-    # 1. Rendu étanche du Compte-rendu Clinique
-    st.markdown(f"""
-        <div class="report-box">
-            <h1 style="color: #1e40af; font-size: 1.6rem; margin-top:0; margin-bottom:1.5rem; border-bottom: 2px solid #3b82f6; padding-bottom: 8px; font-weight:700;">📋 COMPTE-RENDU CLINIQUE SYNTHÉTIQUE</h1>
-            <p style="color:#64748b; font-size:0.9rem; margin-bottom:1.5rem;"><b>Patient :</b> {p_name} | <b>Document sécurisé</b></p>
-            {html_report}
-        </div>
-    """, unsafe_allow_html=True)
-    
-    # 2. Rendu de la ligne de séparation pointillée
-    st.markdown('<div style="margin-top: 40px; margin-bottom: 40px; border-top: 2px dashed #cbd5e1;"></div>', unsafe_allow_html=True)
-    
-    # 3. Rendu étanche de l'Ordonnance Thérapeutique
-    st.markdown(f"""
-        <div class="prescription-box">
-            <h1 style="color: #7c3aed; font-size: 1.6rem; margin-top:0; margin-bottom:1.5rem; border-bottom: 2px solid #8b5cf6; padding-bottom: 8px; font-weight:700;">💊 ORDONNANCE MÉDICALE THÉRAPEUTIQUE</h1>
-            <p style="color:#64748b; font-size:0.9rem; margin-bottom:1.5rem;"><b>Patient :</b> {p_name} | <b>Avis médical requis avant délivrance</b></p>
-            {html_prescription}
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # --- BLOC DE TÉLÉCHARGEMENT & EXPORTATION ---
-    st.markdown("### 📥 Téléchargements et Exports")
-    down_col1, down_col2 = st.columns(2)
-    
-    with down_col1:
-        # Export TXT Unifié
-        unified_txt = f"DOSSIER MEDICAL CLINIQUE\nPATIENT: {p_name.upper()}\n\n" + raw_report + "\n\n" + raw_prescription
-        st.download_button(
-            label="📄 Télécharger le Dossier (.TXT)",
-            data=unified_txt,
-            file_name=f"dossier_{p_name.replace(' ','_')}.txt",
-            mime="text/plain",
-            use_container_width=True
-        )
+    elif st.session_state.step in ["diagnostic_done", "awaiting_human"] and st.session_state.state:
+        state = st.session_state.state
+        st.subheader(" Métriques Émises par les Agents")
+        sub_tab1, sub_tab2, sub_tab3 = st.tabs(["  Triage Initial", "  Contexte Vectoriel RAG", "  Proposition Diagnostic"])
         
-    with down_col2:
-        # GÉNÉRATION ET TÉLÉCHARGEMENT DU PDF NATIF
-        pdf_data = build_pdf_bytes(p_name, raw_report, raw_prescription)
-        st.download_button(
-            label="📥 Télécharger le Dossier Global (PDF)",
-            data=pdf_data,
-            file_name=f"dossier_clinique_{p_name.replace(' ','_')}.pdf",
-            mime="application/pdf",
-            use_container_width=True
-        )
+        with sub_tab1:
+            st.markdown('<span class="step-badge badge-triage">Agent Triage</span>', unsafe_allow_html=True)
+            st.markdown(f'<div class="agent-card">{state.get("triage_result","")}</div>', unsafe_allow_html=True)
+        with sub_tab2:
+            st.markdown('<span class="step-badge badge-rag">Agent RAG</span>', unsafe_allow_html=True)
+            context = state.get("rag_context", "")
+            for block in context.split("\n\n") if context else []:
+                if block.strip(): st.markdown(f'<div class="agent-card rag">{block}</div>', unsafe_allow_html=True)
+        with sub_tab3:
+            st.markdown('<span class="step-badge badge-diag">Agent Diagnostic</span>', unsafe_allow_html=True)
+            st.markdown(f'<div class="agent-card diag">{state.get("diagnostic","")}</div>', unsafe_allow_html=True)
+            
+        st.markdown("---")
+        st.subheader("👨‍⚕️ Arbitrage Humain Mandataire (Human-in-the-Loop)")
+        with st.form("human_form"):
+            feedback = st.text_area("Directives de modification ou d'approbation", placeholder="Ex: Diagnostic validé.", height=100)
+            col_a, col_b = st.columns(2)
+            with col_a: approve = st.form_submit_button(" Signer & Autoriser la Prescription", type="primary", use_container_width=True)
+            with col_b: reject = st.form_submit_button(" Rejeter le Dossier", use_container_width=True)
+                
+        if approve and feedback:
+            with st.spinner("Calcul de la Prescription & Génération..."):
+                try:
+                    graph = get_graph()
+                    final = resume_after_human(graph, st.session_state.thread_id, approved=True, feedback=feedback)
+                    st.session_state.state = final
+                    st.session_state.step = "done"
+                    st.rerun()
+                except Exception as e: st.error(f"Erreur d'autorisation : {e}")
+        elif approve and not feedback: st.error("Veuillez renseigner un commentaire de visa médical.")
+        elif reject:
+            st.session_state.step = "idle"
+            st.warning("Dossier rejeté par l'expert médical.")
+
+    if st.session_state.step == "done" and st.session_state.state:
+        state = st.session_state.state
+        st.success(" Processus d'évaluation clinique finalisé avec succès.")
+        st.subheader(" Documents Officiels Générés")
+        
+        raw_report = state.get("report", "")
+        raw_prescription = state.get("prescription", "")
+        p_name = state.get("patient_name", "Patient")
+        
+        def format_to_premium_html(text):
+            if not text: return ""
+            html_text = text.replace("\n", "<br>")
+            html_text = re.sub(r'\*\*\s*([A-Z0-9]{1,3}\..*?)\s*\*\*|\*\*\s*([IVXLCDM]+\..*?)\s*\*\*', 
+                               r'<h2 style="color: #1e3a8a; margin-top: 1.6rem; margin-bottom: 0.6rem; font-size: 1.35rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; font-weight:600;">\1\2</h2>', html_text)
+            html_text = re.sub(r'\*\*\s*([a-z]\).*?)\s*\*\*|\*\*\s*([0-9]+\.[0-9]+\..*?)\s*\*\*', 
+                               r'<h3 style="color: #2563eb; margin-top: 1.2rem; margin-bottom: 0.4rem; font-size: 1.15rem; font-weight:600;">\1\2</h3>', html_text)
+            html_text = re.sub(r'\*\*(.*?)\*\*', r'<strong style="color: #0f172a; font-weight: 600;">\1</strong>', html_text)
+            return html_text
+
+        html_report = format_to_premium_html(raw_report)
+        html_prescription = format_to_premium_html(raw_prescription)
+        
+        st.markdown('<div style="background:#f8fafc; padding:20px; border-radius:16px; margin-bottom:20px; color:#0f172a;">', unsafe_allow_html=True)
+        
+        st.markdown(f"""
+            <div class="report-box">
+                <h1 style="color: #1e40af; font-size: 1.6rem; margin-top:0; margin-bottom:1.5rem; border-bottom: 2px solid #3b82f6; padding-bottom: 8px; font-weight:700;"> COMPTE-RENDU CLINIQUE SYNTHÉTIQUE</h1>
+                <p style="color:#64748b; font-size:0.9rem; margin-bottom:1.5rem;"><b>Patient :</b> {p_name} | <b>Document sécurisé</b></p>
+                {html_report}
+            </div>
+        """, unsafe_allow_html=True)
+        
+        st.markdown('<div style="margin-top: 40px; margin-bottom: 40px; border-top: 2px dashed #cbd5e1;"></div>', unsafe_allow_html=True)
+        
+        st.markdown(f"""
+            <div class="prescription-box">
+                <h1 style="color: #7c3aed; font-size: 1.6rem; margin-top:0; margin-bottom:1.5rem; border-bottom: 2px solid #8b5cf6; padding-bottom: 8px; font-weight:700;"> ORDONNANCE MÉDICALE THÉRAPEUTIQUE</h1>
+                <p style="color:#64748b; font-size:0.9rem; margin-bottom:1.5rem;"><b>Patient :</b> {p_name} | <b>Avis médical requis avant délivrance</b></p>
+                {html_prescription}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        st.markdown("###  Téléchargements et Exports")
+        down_col1, down_col2 = st.columns(2)
+        
+        with down_col1:
+            unified_txt = f"DOSSIER MEDICAL CLINIQUE\nPATIENT: {p_name.upper()}\n\n" + raw_report + "\n\n" + raw_prescription
+            st.download_button(
+                label=" Télécharger le Dossier (.TXT)",
+                data=unified_txt,
+                file_name=f"dossier_{p_name.replace(' ','_')}.txt",
+                mime="text/plain",
+                use_container_width=True
+            )
+            
+        with down_col2:
+            pdf_data = build_pdf_bytes(p_name, raw_report, raw_prescription)
+            st.download_button(
+                label=" Télécharger le Dossier Global (PDF)",
+                data=pdf_data,
+                file_name=f"dossier_clinique_{p_name.replace(' ','_')}.pdf",
+                mime="application/pdf",
+                use_container_width=True
+            )
+
+with tab_evaluation:
+    st.subheader("Analyse Comparative A/B de l'Agent Triage")
+    st.caption("Évaluez l'efficacité algorithmique entre le Prompt A (court) et le Prompt B (détaillé).")
+    
+    if not EVAL_AVAILABLE:
+        st.warning("Le fichier `evaluation.py` est introuvable ou contient des erreurs d'importation.")
+    else:
+        if st.button(" Lancer la Matrice d'Évaluation Groq", use_container_width=True):
+            with st.spinner("Analyse des cas cliniques de test en cours via Llama-3.3-70B..."):
+                try:
+                    st.session_state.eval_results = run_evaluation()
+                    st.success(" Matrice d'évaluation exécutée avec succès !")
+                except Exception as err:
+                    st.error(f"Erreur lors de l'évaluation : {err}")
+        
+        if "eval_results" in st.session_state and st.session_state.eval_results:
+            data = st.session_state.eval_results
+            
+            col_score1, col_score2 = st.columns(2)
+            col_score1.metric(label="Précision Prompt A (Court)", value=f"{data['score_a']:.0f}%")
+            col_score2.metric(label="Précision Prompt B (Détaillé)", value=f"{data['score_b']:.0f}%")
+            
+            st.markdown("#### Données Brutes des Tests d'Urgence")
+            formatted_table = []
+            for item in data["results"]:
+                formatted_table.append({
+                    "Cas N°": item["case_id"],
+                    "Prompt Évalué": item["prompt"],
+                    "Attendu (Vérité terrain)": item["expected"],
+                    "Détecté par LLM": item["detected"],
+                    "Statut Décisionnel": " Conforme" if item["correct"] else " Écart Détecté"
+                })
+            st.dataframe(formatted_table, use_container_width=True)
