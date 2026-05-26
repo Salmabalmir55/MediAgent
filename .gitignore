@@ -9,3 +9,10 @@ data/faiss_index/
 dist/
 build/
 .DS_Store
+<<<<<<< HEAD
+=======
+.env
+.env.local
+*.key
+*.pem
+>>>>>>> 3a9888eb6a02c3d60df66c9e133a53a9a99a5a3a

@@ -18,7 +18,11 @@ Sur la base de ces informations, propose :
 4. Les signaux d'alerte qui nécessiteraient une urgence immédiate"""
 
 def agent_diagnostic(state: MedicalState) -> MedicalState:
+<<<<<<< HEAD
     llm = ChatGroq(model="llama-3.3-70b-versatile", temperature=0.2, api_key=os.getenv("GROQ_API_KEY"))
+=======
+    llm = ChatGroq(model="mixtral-8x7b-32768", temperature=0.2, api_key=os.getenv("GROQ_API_KEY"))
+>>>>>>> 3a9888eb6a02c3d60df66c9e133a53a9a99a5a3a
     prompt = PROMPT_DIAGNOSTIC.format(
         symptoms=state["symptoms"],
         triage=state.get("triage_result", "Non disponible"),
