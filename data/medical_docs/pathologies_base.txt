@@ -1,4 +1,4 @@
-FICHES PATHOLOGIES MÉDICALES — BASE DE CONNAISSANCES MediAgent
+ appFICHES PATHOLOGIES MÉDICALES — BASE DE CONNAISSANCES MediAgent
 
 === GRIPPE (INFLUENZA) ===
 La grippe est une infection virale aiguë des voies respiratoires causée par les virus Influenza A, B ou C.

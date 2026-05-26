@@ -1,8 +1,3 @@
-"""
-graph.py — Orchestration LangGraph du système multi-agent médical.
-Flux : triage → rag → diagnostic → [HUMAN INTERRUPT] → prescription → rapport
-"""
-
 import os
 from dotenv import load_dotenv
 from langgraph.graph import StateGraph, END
@@ -17,29 +12,18 @@ from agents.agent_diagnostic import agent_diagnostic
 from agents.agent_prescription import agent_prescription
 from agents.agent_report import agent_report
 
-# ─── Nœud Human-in-the-loop ──────────────────────────────────────────────────
-
 def human_validation_node(state: MedicalState) -> MedicalState:
-    """
-    Point d'arrêt : le graphe s'arrête ici et attend que Streamlit
-    mette à jour state['human_approved'] et state['human_feedback'].
-    Ce nœud ne fait rien lui-même — c'est l'interrupt qui bloque.
-    """
     state["current_step"] = "awaiting_human"
     return state
 
 def should_continue(state: MedicalState) -> str:
-    """Routeur : continue si le médecin a approuvé, sinon reste en attente."""
     if state.get("human_approved") is True:
         return "prescription"
-    return END  # Streamlit relancera le graphe après l'approbation
-
-# ─── Construction du graphe ───────────────────────────────────────────────────
+    return END
 
 def build_graph():
     builder = StateGraph(MedicalState)
 
-    # Ajout des nœuds
     builder.add_node("triage", agent_triage)
     builder.add_node("rag", agent_rag)
     builder.add_node("diagnostic", agent_diagnostic)
@@ -47,13 +31,11 @@ def build_graph():
     builder.add_node("prescription", agent_prescription)
     builder.add_node("report", agent_report)
 
-    # Flux séquentiel
     builder.set_entry_point("triage")
     builder.add_edge("triage", "rag")
     builder.add_edge("rag", "diagnostic")
     builder.add_edge("diagnostic", "human_validation")
 
-    # Branchement conditionnel après la validation humaine
     builder.add_conditional_edges(
         "human_validation",
         should_continue,
@@ -62,27 +44,22 @@ def build_graph():
     builder.add_edge("prescription", "report")
     builder.add_edge("report", END)
 
-    # Checkpointer en mémoire (permet l'interrupt et la reprise)
     memory = MemorySaver()
     return builder.compile(
         checkpointer=memory,
-        interrupt_before=["human_validation"],  # ← pause avant validation
+        interrupt_before=["human_validation"],
     )
 
-# ─── Fonctions utilitaires pour Streamlit ────────────────────────────────────
-
 def run_until_human(graph, initial_state: dict, thread_id: str) -> MedicalState:
-    """Lance le graphe jusqu'au point d'arrêt humain."""
     config = {"configurable": {"thread_id": thread_id}}
     result = None
     for event in graph.stream(initial_state, config=config, stream_mode="values"):
         result = event
     if result is None:
-        raise RuntimeError("Le graphe s'est terminé sans atteindre le point d'arrêt humain.")
+        raise RuntimeError("Le graphe s'est termine sans atteindre le point d'arret humain.")
     return result
 
 def resume_after_human(graph, thread_id: str, approved: bool, feedback: str) -> MedicalState:
-    """Reprend le graphe après la décision humaine."""
     config = {"configurable": {"thread_id": thread_id}}
     update = {"human_approved": approved, "human_feedback": feedback}
     graph.update_state(config, update)
@@ -90,16 +67,18 @@ def resume_after_human(graph, thread_id: str, approved: bool, feedback: str) -> 
     for event in graph.stream(None, config=config, stream_mode="values"):
         result = event
     if result is None:
-        raise RuntimeError("Le graphe n'a pas pu reprendre après validation humaine.")
+        raise RuntimeError("Le graphe n'a pas pu reprendre apres validation humaine.")
     return result
 
+def export_graph_for_langflow(graph, output_path: str = "mediagent_graph.json"):
+    from langflow_integration import save_graph_for_langflow
+    return save_graph_for_langflow(graph, output_path)
 
 if __name__ == "__main__":
-    # Test rapide en ligne de commande
     g = build_graph()
     init = {
         "patient_name": "Ahmed Bennani",
-        "symptoms": "Fièvre à 39°C depuis 3 jours, toux sèche, courbatures, perte d'odorat",
+        "symptoms": "Fievre a 39°C depuis 3 jours, toux seche, courbatures, perte d'odorat",
         "messages": [],
         "triage_result": None,
         "rag_context": None,
@@ -111,9 +90,10 @@ if __name__ == "__main__":
         "current_step": "start",
     }
     state = run_until_human(g, init, "test-001")
-    print("\n=== DIAGNOSTIC PROPOSÉ ===")
+    print("\n=== DIAGNOSTIC PROPOSE ===")
     print(state.get("diagnostic"))
     print("\n→ En attente de validation humaine...")
-    final = resume_after_human(g, "test-001", approved=True, feedback="Diagnostic cohérent, je confirme.")
+    final = resume_after_human(g, "test-001", approved=True, feedback="Diagnostic coherent, je confirme.")
     print("\n=== RAPPORT FINAL ===")
     print(final.get("report"))
+    export_graph_for_langflow(g)

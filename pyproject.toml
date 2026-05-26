@@ -1,0 +1,17 @@
+[project]
+name = "medical-agent"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "faiss-cpu>=1.14.2",
+    "langchain-community>=0.4.2",
+    "langchain-groq>=1.1.2",
+    "langgraph>=1.2.1",
+    "python-dotenv>=1.2.2",
+    "reportlab>=4.5.1",
+    "sentence-transformers>=5.5.1",
+    "streamlit>=1.57.0",
+    "torchvision>=0.27.0",
+]

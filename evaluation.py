@@ -1,11 +1,16 @@
-
-
 import os
 import re
+import warnings
 from dotenv import load_dotenv
-load_dotenv()
 
-from langchain_groq import ChatGroq  # ← Changement : Groq au lieu d'OpenAI
+# Ignorer les avertissements de dépréciation encombrants dans le terminal
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+warnings.filterwarnings("ignore", message=".*Accessing `__path__`.*")
+
+# Premier chargement au lancement direct
+load_dotenv(override=True)
+
+from langchain_groq import ChatGroq  
 from agents.agent_triage import PROMPT_A, PROMPT_B
 
 TEST_CASES = [
@@ -51,20 +56,47 @@ def extract_urgency(text: str) -> str:
         if re.search(pattern, text_upper):
             return level
     
-    if "CRITIQUE" in text_upper:
-        return "CRITIQUE"
-    if "ÉLEVÉE" in text_upper or "ELEVEE" in text_upper:
-        return "ÉLEVÉE"
-    if "MODÉRÉE" in text_upper or "MODEREE" in text_upper:
-        return "MODÉRÉE"
-    if "FAIBLE" in text_upper:
-        return "FAIBLE"
+    if "CRITIQUE" in text_upper: return "CRITIQUE"
+    if "ÉLEVÉE" in text_upper or "ELEVEE" in text_upper: return "ÉLEVÉE"
+    if "MODÉRÉE" in text_upper or "MODEREE" in text_upper: return "MODÉRÉE"
+    if "FAIBLE" in text_upper: return "FAIBLE"
     
     return "INCONNU"
 
 def evaluate_prompt(prompt_template: str, prompt_name: str) -> list:
-    # ← Changement : utilisation de Groq
-    llm = ChatGroq(model="llama-3.3-70b-versatile", temperature=0, api_key=os.getenv("GROQ_API_KEY"))
+    # Récupération de la clé avec une triple vérification (Streamlit State -> OS Env -> File .env)
+    api_key = None
+    
+    try:
+        import streamlit as st
+        # 1. Vérifier si l'utilisateur a saisi une clé ou si elle est stockée par Streamlit
+        if "api_key" in st.session_state and st.session_state.api_key:
+            api_key = st.session_state.api_key
+    except Exception:
+        pass # Pas dans un contexte Streamlit (exécution directe du script)
+
+    # 2. Si non trouvée, chercher dans les variables d'environnement système actives
+    if not api_key:
+        api_key = os.getenv("GROQ_API_KEY")
+
+    # 3. Si toujours vide, forcer un rechargement local du fichier .env
+    if not api_key:
+        load_dotenv(override=True)
+        api_key = os.getenv("GROQ_API_KEY")
+
+    # Validation finale avant exécution
+    if not api_key or api_key.strip() == "":
+        raise ValueError("Erreur d'authentification : La clé GROQ_API_KEY n'a pas pu être récupérée.")
+
+    # Forcer l'application de la bonne clé pour éviter les conflits internes de LangChain
+    os.environ["GROQ_API_KEY"] = api_key.strip()
+
+    # Utilisation stricte de Groq avec transmission explicite de la clé validée
+    llm = ChatGroq(
+        model="llama-3.3-70b-versatile", 
+        temperature=0, 
+        groq_api_key=api_key.strip()
+    )
     results = []
 
     for case in TEST_CASES:
@@ -73,7 +105,6 @@ def evaluate_prompt(prompt_template: str, prompt_name: str) -> list:
         expected = case["expected_urgency"]
         detected = extract_urgency(response)
         
-        # Vérification de correspondance
         correct = (detected == expected) or \
                   (expected == "ÉLEVÉE" and detected == "CRITIQUE")
 
@@ -89,7 +120,7 @@ def evaluate_prompt(prompt_template: str, prompt_name: str) -> list:
 
 def run_evaluation():
     print("=" * 60)
-    print("   ÉVALUATION A/B DES PROMPTS — AGENT TRIAGE MÉDICAL (GROQ)")
+    print("    ÉVALUATION A/B DES PROMPTS — AGENT TRIAGE MÉDICAL (GROQ)")
     print("=" * 60)
 
     results_a = evaluate_prompt(PROMPT_A, "Prompt A (court)")
